@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Install dependencies for Z3sec on Ubuntu 16.10.
+# Install dependencies for Z3sec on Ubuntu 16.04.
 
 echo ">>> Updating system"
-sudo apt-get update -y && sudo apt-get upgrade -y
+#sudo apt-get update -y && sudo apt-get upgrade -y
 echo ">>> Installing repo dependencies"
 sudo apt-get install -y \
     build-essential \
@@ -74,10 +74,11 @@ sudo cp "$source_dir"/patch/grc.conf /etc/gnuradio/conf.d/grc.conf
 cd "$dependencies"
 
 echo ">>> Installing scapy-radio"
-hg clone https://bitbucket.org/cybertools/scapy-radio
+#hg clone https://bitbucket.org/cybertools/scapy-radio
+git clone https://github.com/mzollin/scapy-radio
 cd scapy-radio
 # checkout version with old scapy:
-hg up -C 14:980029ae0bbb
+#hg up -C 14:980029ae0bbb
 ./install.sh
 # patch scapy dot15d4/zigbee:
 sudo cp "$source_dir"/patch/dot15d4.py /usr/local/lib/python2.7/dist-packages/scapy/layers/dot15d4.py
@@ -85,7 +86,7 @@ sudo cp "$source_dir"/patch/dot15d4.py /usr/local/lib/python2.7/dist-packages/sc
 cd "$dependencies"
 
 echo ">>> Installing KillerBee"
-git clone https://github.com/riverloopsec/killerbee.git
+git clone https://github.com/mzollin/killerbee
 cd killerbee
 # patch scapy_extensions.py and GoodFET.py before installing
 cp "$source_dir"/patch/scapy_extensions.py killerbee/scapy_extensions.py
@@ -95,7 +96,7 @@ sudo python setup.py install
 cd "$dependencies"
 
 echo ">>> Installing gr-foo"
-git clone -b master https://github.com/bastibl/gr-foo.git
+git clone -b maint-3.7 https://github.com/mzollin/gr-foo
 cd gr-foo
 mkdir build && cd build/
 cmake .. && make
@@ -105,7 +106,7 @@ sudo ldconfig
 cd "$dependencies"
 
 echo ">>> Installing gr-ieee802.15.4"
-git clone git://github.com/bastibl/gr-ieee802-15-4.git
+git clone -b maint-3.7 https://github.com/mzollin/gr-ieee802-15-4
 cd gr-ieee802-15-4
 mkdir build && cd build/
 cmake .. && make
